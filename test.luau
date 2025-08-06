@@ -1,3 +1,5 @@
+-- used for testing webcrawlers in detecting malicous code this isnt a real script nor actually malicous its a fake malicous script to test webcrawlers --
+
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
