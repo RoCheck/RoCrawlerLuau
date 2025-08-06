@@ -1,72 +1,114 @@
---[[ 
-    ✅ Harmless Real Code Section 
-]]--
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local genv = getgenv and getgenv() or {}
+genv.token = "super_fake_token_928374"
+
 local function createButton()
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0, 200, 0, 50)
-    button.Position = UDim2.new(0.5, -100, 0.5, -25)
-    button.Text = "Click Me"
-    button.Parent = Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
+	local button = Instance.new("TextButton")
+	button.Text = "Press"
+	button.Size = UDim2.new(0, 200, 0, 50)
+	button.Position = UDim2.new(0.5, -100, 0.5, -25)
+	button.Parent = Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
 end
 
+local function spoof()
+	shared["_spy"] = true
+	print("Activated fake spy mode")
+end
+
+spoof()
 createButton()
 
--- Add a harmless remote event
+local function fakeHook()
+	local function innocent() return "clean" end
+	print("Pretending to hook innocent function")
+	-- hookfunction(innocent, function() return "intercepted" end)
+end
+
+fakeHook()
+
+local function createLabel(txt)
+	local label = Instance.new("TextLabel")
+	label.Text = txt
+	label.Size = UDim2.new(0, 200, 0, 30)
+	label.Parent = Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
+end
+
+createLabel("Welcome to the test environment.")
+
+local encoded = "cHJpbnQoIkZha2UgV29ybGQhIik=" -- base64 for: print("Fake World!")
+print("Fake Decoded Payload (Base64):", encoded)
+
 local remote = Instance.new("RemoteEvent")
 remote.Name = "TestRemote"
 remote.Parent = ReplicatedStorage
 
-remote.OnServerEvent:Connect(function(player, data)
-    print("Received from", player.Name, ":", data)
+remote.OnServerEvent:Connect(function(player, message)
+	print("Message from", player.Name, ":", message)
 end)
 
---[[ 
-    ⚠️ Fake Malicious-Looking Code (NOT ACTUALLY MALICIOUS)
-]]--
-
--- Fake use of getgenv
-local genv = getgenv and getgenv() or {}
-genv.token = "123FAKETOKEN456"
-
--- Fake require backdoor
 local function backdoorRequire()
-    local id = 13371337 -- Totally fake ID
-    print("Pretending to require backdoor from", id)
-    -- local evil = require(id) -- DO NOT EXECUTE
+	local id = 10293847
+	print("Pretend require from", id)
+	-- local module = require(id)
 end
 
 backdoorRequire()
 
--- Fake base64 payload
-local fakeBase64 = "cHJpbnQoIkZha2Ugc2hlbGwgY29tbWFuZCIp" -- base64 for: print("Fake shell command")
-print("Decoded payload:", fakeBase64)
+remote:FireServer("Client has clicked the button.")
 
--- Fake loadstring call
-local function fakeLoader()
-    local str = "loadstring('print(\"Simulated malicious execution\")')"
-    print("Simulated loadstring call:", str)
+local exploit = identifyexecutor and identifyexecutor() or "RobloxClient"
+print("Fake exploit detection:", exploit)
+
+local function simulateShell()
+	local shellCmd = "loadstring('print(\"FAKE SHELL EXECUTION\")')"
+	print("Simulating shell:", shellCmd)
 end
 
-fakeLoader()
+simulateShell()
 
--- Fake obfuscated function
-local function oBfUScAtEd()
-    local a = {"f", "a", "k", "e"}
-    local b = ""
-    for _, v in pairs(a) do b = b .. v end
-    print("Obfuscated var:", b)
+local function printInfo(player)
+	print("Joined Player:", player.Name, player.UserId)
 end
 
-oBfUScAtEd()
+Players.PlayerAdded:Connect(printInfo)
 
--- Fake infinite yield thread
 task.spawn(function()
-    while true do
-        task.wait(60)
-        print("Fake persistence script running...")
-    end
+	while true do
+		wait(90)
+		print("Fake heartbeat thread pinging...")
+	end
 end)
+
+local function obfuscatedMath()
+	local s = 0
+	for i = 1, 10 do
+		s = s + (i * 2 - 1)
+	end
+	print("Fake obfuscated result:", s)
+end
+
+obfuscatedMath()
+
+_G["stealth_mode"] = true
+print("Global flag _G.stealth_mode =", _G["stealth_mode"])
+
+local function simulateHttp()
+	local url = "http://definitely-not-bad.com/hook"
+	print("Simulating HttpGet:", url)
+	-- game:HttpGet(url)
+end
+
+simulateHttp()
+
+local function fakeKeylogger()
+	local keys = {"W", "A", "S", "D"}
+	for _, key in ipairs(keys) do
+		print("Logging fake key:", key)
+	end
+end
+
+fakeKeylogger()
+
+print("Finished mixed script simulation.")
